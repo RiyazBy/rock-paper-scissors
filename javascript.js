@@ -11,7 +11,9 @@ function playGame() {
         //check if humanChoice is either rock, paper or scissors (case-insensitive)
         //keep prompting while humanChoice is different than the valid options or break when the player cancels
         do { humanChoice = prompt("Rock! Paper! Scissors!", "");
-            if (humanChoice === null) break;
+            if (humanChoice === null) {
+                alert("Game Canceled.");
+                return;}
         } while (humanChoice.toLowerCase() != 'rock' && humanChoice.toLowerCase() != 'paper' && humanChoice.toLowerCase() != 'scissors');
         function getHumanChoice() {return humanChoice.toLowerCase()};			  
         alert(`You chose ${getHumanChoice()}`);
@@ -43,10 +45,11 @@ function playGame() {
         playRound(humanChoice, computerChoice);
         alert(`The score is : Player - ${humanScore} | ${computerScore} - Computer`);
     } 
+    do {alert(`The final score is Player - ${humanScore} | ${computerScore} - Computer`);
+    if (humanScore === computerScore) {alert("That's a draw.")}
+    else if (humanScore > computerScore) {alert("Hurray! You won the game!")}
+    else {alert("Game over. You lost the game, better luck next time...")}
+    alert("To play again, press F5.")}
+    while (humanChoice !== null);
 }
 playGame();
-alert(`The final score is Player - ${humanScore} | ${computerScore} - Computer`);
-if (humanScore === computerScore) {alert("That's a draw.")}
-else if (humanScore > computerScore) {alert("Hurray! You won the game!")}
-else {alert("Game over. You lost the game, better luck next time...")}
-alert("To play again, press F5.")
