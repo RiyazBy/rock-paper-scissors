@@ -45,11 +45,10 @@ function playGame() {
         playRound(humanChoice, computerChoice);
         alert(`The score is : Player - ${humanScore} | ${computerScore} - Computer`);
     } 
-    do {alert(`The final score is Player - ${humanScore} | ${computerScore} - Computer`);
+    alert(`The final score is Player - ${humanScore} | ${computerScore} - Computer`);
     if (humanScore === computerScore) {alert("That's a draw.")}
     else if (humanScore > computerScore) {alert("Hurray! You won the game!")}
     else {alert("Game over. You lost the game, better luck next time...")}
-    alert("To play again, press F5.")}
-    while (humanChoice !== null);
+    alert("To play again, press F5.")
 }
 playGame();
