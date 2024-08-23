@@ -31,9 +31,9 @@ function playGame() {
         //else tell the player they lost the game
         function playRound(playerOneSelection, playerTwoSelection) {
             if (playerOneSelection === playerTwoSelection) { alert ("Well! It's a draw!") }
-            else if ((playerOneSelection === 'rock' && playerTwoSelection === 'scissors') 
-                || (playerOneSelection === 'scissors' && playerTwoSelection === 'paper') 
-                || (playerOneSelection === 'paper' && playerTwoSelection === 'rock')) 
+            else if ((playerOneSelection === 'rock' && playerTwoSelection === 'scissors') ||
+                (playerOneSelection === 'scissors' && playerTwoSelection === 'paper') ||
+                (playerOneSelection === 'paper' && playerTwoSelection === 'rock')) 
                 { humanScore++;
                 alert(`Congrats! ${playerOneSelection} beats ${playerTwoSelection}. You won round ${i}!`);}
             else { computerScore++;
