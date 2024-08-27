@@ -1,44 +1,106 @@
+let arr = ['Rock', 'Paper', 'Scissors'];
+function randomize() { return Math.floor(Math.random()*3); };
+function getComputerChoice() { return arr[randomize()]; };
 let humanScore = 0;
 let computerScore = 0;
-let humanChoice;
-let computerChoice;
-//Function to play a five-round game
-function playGame() {
-    for (i=1; i<=5; i++) {
-        let arr = ['rock', 'paper', 'scissors'];
-        //Function to get the player's choice
-        do { humanChoice = prompt("Rock! Paper! Scissors!", "");
-            if (humanChoice === null) {
-                alert("Game Canceled.");
-                return;}
-        } while (humanChoice.toLowerCase() != 'rock' && humanChoice.toLowerCase() != 'paper' && humanChoice.toLowerCase() != 'scissors');
-        function getHumanChoice() {return humanChoice.toLowerCase()};			  
-        alert(`You chose ${getHumanChoice()}`);
-        //Function to get the computer's random choice
-        function randomize() { return Math.floor(Math.random()*3); };
-        function getComputerChoice() { return arr[randomize()]; };
-        //Function to play a single round and tell the player whether they won or lost the round
-        function playRound(playerOneSelection, playerTwoSelection) {
-            if (playerOneSelection === playerTwoSelection) { alert ("Well! It's a draw!") }
-            else if ((playerOneSelection === 'rock' && playerTwoSelection === 'scissors') ||
-                (playerOneSelection === 'scissors' && playerTwoSelection === 'paper') ||
-                (playerOneSelection === 'paper' && playerTwoSelection === 'rock')) 
-                { humanScore++;
-                alert(`Congrats! ${playerOneSelection} beats ${playerTwoSelection}. You won round ${i}!`);}
-            else { computerScore++;
-                alert(`Ugh! ${playerTwoSelection} beats ${playerOneSelection}. You lost round ${i}...`);}
-        }
-        humanChoice = getHumanChoice();
-        computerChoice = getComputerChoice();
-        alert(`the computer chose ${computerChoice}`);
-        playRound(humanChoice, computerChoice);
-        alert(`The score is : Player - ${humanScore} | ${computerScore} - Computer`);
+
+const rock = document.querySelector(".rock");
+const paper = document.querySelector(".paper");
+const scissors = document.querySelector(".scissors");
+const body = document.querySelector("body");
+const score = document.createElement ("p");
+const winnerDeclaration = document.createElement ("p");
+
+const computerChoiceDeclaration = document.createElement("h3");
+body.appendChild(computerChoiceDeclaration);
+
+const resetButton = document.createElement("button");
+resetButton.classList.add("reset");
+resetButton.textContent = "Play again";
+
+
+function playRound(playerOneSelection, playerTwoSelection) {
+    if (playerOneSelection === playerTwoSelection.toLowerCase()) { 
+        winnerDeclaration.textContent="Well! It's a draw!";
+    } else if ((playerOneSelection === 'rock' && playerTwoSelection.toLowerCase() === 'scissors') ||
+        (playerOneSelection === 'scissors' && playerTwoSelection.toLowerCase() === 'paper') ||
+        (playerOneSelection === 'paper' && playerTwoSelection.toLowerCase() === 'rock')) { 
+        humanScore++;
+        winnerDeclaration.textContent=`Congrats! ${playerOneSelection} beats ${playerTwoSelection.toLowerCase()}. You won this round!`;        
+    } else { 
+        computerScore++;
+        winnerDeclaration.textContent=`Ugh! ${playerTwoSelection.toLowerCase()} beats ${playerOneSelection}. You lost this round...`;
     }
-    //Declare the final result and tell the player whether they won or lost the game 
-    alert(`The final score is Player - ${humanScore} | ${computerScore} - Computer`);
-    if (humanScore === computerScore) {alert("That's a draw.")}
-    else if (humanScore > computerScore) {alert("Hurray! You won the game!")}
-    else {alert("Game over. You lost the game, better luck next time...")}
-    alert("To play again, press F5.")
+    score.textContent = `Player - ${humanScore} | ${computerScore} - Computer`;
+    body.appendChild(winnerDeclaration);
+    body.appendChild(score); 
+
+    if (humanScore === 5) {
+        winnerDeclaration.textContent = "Well done! You Won the game!"
+        body.appendChild(winnerDeclaration);
+        rock.removeEventListener("click", rockClickHandler)
+        paper.removeEventListener("click", paperClickHandler);
+        scissors.removeEventListener("click", scissorsClickHandler);
+        scissors.style.cssText = "background-color: default; color: default;";
+        paper.style.cssText = "background-color: default; color: default;";
+        rock.style.cssText = "background-color: default; color: default;";
+        body.appendChild(resetButton);
+    }
+    else if (computerScore === 5) {
+        winnerDeclaration.textContent = "Game Over!"
+        body.appendChild(winnerDeclaration);
+        rock.removeEventListener("click", rockClickHandler);
+        paper.removeEventListener("click", paperClickHandler);
+        scissors.removeEventListener("click", scissorsClickHandler);
+        scissors.style.cssText = "background-color: default; color: default;";
+        paper.style.cssText = "background-color: default; color: default;";
+        rock.style.cssText = "background-color: default; color: default;";
+        body.appendChild(resetButton);
+    }
 }
-playGame();
+
+
+function rockClickHandler() {
+    const playerChoice = "rock";
+    rock.style.cssText = "background-color: black; color: white;";
+    scissors.style.cssText = "background-color: default; color: default;";
+    paper.style.cssText = "background-color: default; color: default;";
+    const computerChoice = getComputerChoice();
+    computerChoiceDeclaration.textContent = `Computer chose: ${computerChoice}`
+    playRound(playerChoice, computerChoice);
+}
+function paperClickHandler() {
+    const playerChoice = "paper";
+    paper.style.cssText = "background-color: black; color: white;";
+    rock.style.cssText = "background-color: default; color: default;";
+    scissors.style.cssText = "background-color: default; color: default;";
+    const computerChoice = getComputerChoice();
+    computerChoiceDeclaration.classList.add("computerChoice");
+    computerChoiceDeclaration.textContent = `Computer chose: ${computerChoice}`
+    playRound(playerChoice, computerChoice);
+}
+function scissorsClickHandler() {
+    const playerChoice = "scissors";
+    scissors.style.cssText = "background-color: black; color: white;";
+    rock.style.cssText = "background-color: default; color: default;";
+    paper.style.cssText = "background-color: default; color: default;";
+    const computerChoice = getComputerChoice();
+    computerChoiceDeclaration.classList.add("computerChoice");
+    computerChoiceDeclaration.textContent = `Computer chose: ${computerChoice}`
+    playRound(playerChoice, computerChoice);
+}
+rock.addEventListener("click", rockClickHandler);
+paper.addEventListener("click", paperClickHandler);
+scissors.addEventListener("click", scissorsClickHandler)
+
+resetButton.addEventListener("click", () => {
+    humanScore = 0;
+    computerScore = 0;
+    computerChoiceDeclaration.remove();
+    winnerDeclaration.remove();
+    score.remove();
+    resetButton.remove();
+    rock.addEventListener("click", rockClickHandler);
+    paper.addEventListener("click", paperClickHandler);
+    scissors.addEventListener("click", scissorsClickHandler)}
+)
